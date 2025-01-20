@@ -2,6 +2,7 @@
 import express from "express";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
+import UserRoutes from "./routes/users";
 require("dotenv").config();
 
 const PORT: Readonly<number> = 8002;
@@ -18,6 +19,7 @@ app.get("/", (req: Request, res: Response) => {
     res.send("hello world from burmese chit chat BROWSING service");
 });
 
+app.use('/users', UserRoutes);
 
 mongoose
     .connect(mongo_url, {})
