@@ -3,6 +3,7 @@ import express from "express";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import UserRoutes from "./routes/users";
+import UserDataRoutes from "./routes/userdatas";
 require("dotenv").config();
 
 const PORT: Readonly<number> = 8002;
@@ -20,6 +21,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use('/users', UserRoutes);
+app.use('/userdata', UserDataRoutes);
 
 mongoose
     .connect(mongo_url, {})

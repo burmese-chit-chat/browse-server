@@ -13,6 +13,7 @@ interface IUpdateFunction {
     public_id? : string
 }
 interface IUserModel extends mongoose.Model<IUser> {
+    show_with_username(username : string) : Promise<IUser>;
 }
 
 
@@ -55,7 +56,16 @@ const UserSchema = new Schema<IUser>({
     }
 }, { timestamps: true });
 
-
+UserSchema.statics.show_with_username = async function(username : string) : Promise<IUser> {
+    try {
+        const user = await this.findOne({username});
+        if(!user) throw new Error("user not found");
+        return user;
+    } catch (e) {
+        console.log(e);
+        throw e;
+    }
+}
 
 const User : IUserModel = mongoose.model<IUser, IUserModel>("User", UserSchema);
 export default User;
