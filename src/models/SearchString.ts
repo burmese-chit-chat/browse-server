@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 import ISearchString from "../types/ISearchString";
-import IUser from "../types/IUser";
 
 interface ISearchStringModel extends mongoose.Model<ISearchString> {
 }
