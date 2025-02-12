@@ -20,6 +20,10 @@ app.get("/", (req: Request, res: Response) => {
     res.send("hello world from burmese chit chat BROWSING service");
 });
 
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 app.use('/users', UserRoutes);
 app.use('/userdata', UserDataRoutes);
 
