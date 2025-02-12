@@ -1,9 +1,11 @@
-
+import { Server } from "socket.io";
 import express from "express";
 import { Request, Response } from "express";
+import http from "http";
 import mongoose from "mongoose";
 import UserRoutes from "./routes/users";
 import UserDataRoutes from "./routes/userdatas";
+import { setupSocket } from "./helpers/socket-handler";
 require("dotenv").config();
 
 const PORT: Readonly<number> = 8002;
@@ -27,11 +29,21 @@ app.get("/health", (req, res) => {
 app.use('/users', UserRoutes);
 app.use('/userdata', UserDataRoutes);
 
+const server = http.createServer(app);
+
+const io = new Server(server, {
+    cors: {
+        origin: process.env.CLIENT_URL, // e.g., "http://localhost:3000"
+        methods: ["GET", "POST"],
+        credentials: true,
+    },
+});
+setupSocket(io);
 mongoose
     .connect(mongo_url, {})
     .then(() => {
         console.log("connected to user database");
-        app.listen(PORT, () => {
+        server.listen(PORT, () => {
             console.log("burmese chit chat browse server is running on port " + PORT);
         });
     })
