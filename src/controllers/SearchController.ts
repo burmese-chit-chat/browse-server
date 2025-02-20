@@ -17,7 +17,7 @@ export default {
                     .find({
                         _id: { $in: user_ids },
                     })
-                    .sort({ is_active : -1 })
+                    .sort({ is_active : -1, _id : 1 })
                     .skip((Number(page) - 1) * limit)
                     .limit(limit)
                 ;
@@ -25,7 +25,7 @@ export default {
             } else {
                 const total_users = await User.countDocuments();
                 const users = await User
-                    .find().sort({ is_active : -1})
+                    .find().sort({ is_active : -1, _id : 1})
                     .skip((Number(page) - 1) * limit)
                     .limit(limit)
                 ;
